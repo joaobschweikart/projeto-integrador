@@ -49,7 +49,11 @@ O projeto segue o padrão **MVC em camadas**, conforme orientado no estudo da di
 
 ## Como Executar Localmente
 
-### 1. Configurar o Banco de Dados MySQL
+### 1. Clone o repositório para sua máquina
+
+Clone esse repositório para seu computador na pasta de sua preferência.
+
+### 2. Configurar o Banco de Dados MySQL
 
 Abra o MySQL Workbench (ou terminal) e execute:
 
@@ -62,7 +66,7 @@ CREATE SCHEMA clinicafacil_db
 
 > O Hibernate criará as tabelas automaticamente na primeira execução (`ddl-auto=update`).
 
-### 2. Configurar as Credenciais
+### 3. Configurar as Credenciais
 
 Edite o arquivo `src/main/resources/application.properties` com suas credenciais MySQL:
 
@@ -72,11 +76,11 @@ spring.datasource.username=root      # ← altere se necessário
 spring.datasource.password=root      # ← altere se necessário
 ```
 
-### 3. Compilar e Executar
+### 4. Compilar e Executar
 
 **Opção A — Maven Wrapper (recomendado):**
 ```bash
-cd clinicafacil
+cd projeto-integrador
 mvn spring-boot:run
 ```
 
@@ -230,7 +234,7 @@ GET /api/consultas/medico/1/agenda?inicio=2026-07-01T00:00:00&fim=2026-07-31T23:
 
 ## Testes
 
-O projeto possui **dois tipos de testes**, conforme exigido na disciplina:
+O projeto possui **dois tipos de testes**:
 
 ### Teste Unitário (Mockito)
 Arquivo: `src/test/java/br/com/clinicafacil/service/EspecialidadeServiceTest.java`
