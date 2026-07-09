@@ -92,6 +92,9 @@ java -jar target/clinicafacil-1.0.0.jar
 
 A aplicação estará disponível em: **http://localhost:8080**
 
+<img width="1838" height="1004" alt="image" src="https://github.com/user-attachments/assets/82a8f577-6b71-43f7-b9fa-1ce146add851" />
+
+
 ---
 
 ## Documentação da API (Swagger)
