@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layouts/base :: head}"><meta charset="UTF-8"/><title>Especialidades</title></head>
+<body>
+<nav th:replace="~{layouts/base :: navbar('especialidades')}"></nav>
+<div class="container-fluid px-4 py-4">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div><h2><i class="bi bi-clipboard2-pulse me-2"></i>Especialidades</h2><p>Gerencie as especialidades médicas</p></div>
+        <a href="/web/especialidades/nova" class="btn btn-cf-accent"><i class="bi bi-plus-lg me-1"></i>Nova Especialidade</a>
+    </div>
+    <div th:if="${sucesso}" class="alert alert-cf-success alert-dismissible fade show mb-3"><i class="bi bi-check-circle me-2"></i><span th:text="${sucesso}"></span><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div th:if="${erro}" class="alert alert-cf-error alert-dismissible fade show mb-3"><i class="bi bi-exclamation-circle me-2"></i><span th:text="${erro}"></span><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body p-0">
+            <table class="table table-hover table-cf mb-0">
+                <thead><tr><th style="width:60px">#</th><th>Nome</th><th>Descrição</th><th class="text-center" style="width:140px">Ações</th></tr></thead>
+                <tbody>
+                    <tr th:each="e : ${especialidades}">
+                        <td class="text-muted small" th:text="${e.id}">1</td>
+                        <td class="fw-semibold" th:text="${e.nome}">—</td>
+                        <td class="text-muted" th:text="${e.descricao ?: '—'}">—</td>
+                        <td class="text-center">
+                            <a th:href="@{/web/especialidades/editar/{id}(id=${e.id})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                            <form th:action="@{/web/especialidades/excluir/{id}(id=${e.id})}" method="post" class="d-inline" onsubmit="return confirm('Excluir esta especialidade?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(especialidades)}"><td colspan="4" class="text-center text-muted py-5"><i class="bi bi-clipboard2-x fs-2 d-block mb-2"></i>Nenhuma especialidade. <a href="/web/especialidades/nova">Cadastrar agora</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{layouts/base :: scripts}"></div>
+</body></html>

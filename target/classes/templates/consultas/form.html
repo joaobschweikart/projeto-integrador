@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layouts/base :: head}"><meta charset="UTF-8"/><title>Consulta</title></head>
+<body>
+<nav th:replace="~{layouts/base :: navbar('consultas')}"></nav>
+<div class="container-fluid px-4 py-4">
+    <div class="page-header"><h2 th:text="${remarcando} ? 'Remarcar Consulta' : 'Agendar Consulta'">Consulta</h2><p>Preencha os dados do agendamento</p></div>
+    <div th:if="${erro}" class="alert alert-cf-error alert-dismissible fade show mb-3"><i class="bi bi-exclamation-circle me-2"></i><span th:text="${erro}"></span><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div class="row justify-content-center"><div class="col-md-6"><div class="form-card">
+
+        <form th:if="${!remarcando}" action="/web/consultas/salvar" method="post">
+            <div class="mb-3"><label class="form-label">Paciente *</label>
+                <select class="form-select" name="pacienteId" required>
+                    <option value="">Selecione o paciente...</option>
+                    <option th:each="p : ${pacientes}" th:value="${p.id}" th:text="${p.nome} + ' — ' + (${p.cpf} ?: ${p.email})"></option>
+                </select>
+            </div>
+            <div class="mb-3"><label class="form-label">Médico *</label>
+                <select class="form-select" name="medicoId" required>
+                    <option value="">Selecione o médico...</option>
+                    <option th:each="m : ${medicos}" th:value="${m.id}" th:text="${m.nome} + ' — ' + (${m.especialidade?.nome} ?: '')"></option>
+                </select>
+            </div>
+            <div class="mb-4"><label class="form-label">Data e Hora *</label>
+                <input type="datetime-local" class="form-control" name="dataHora" required/>
+                <div class="form-text"><i class="bi bi-info-circle me-1"></i>O sistema verifica conflitos automaticamente.</div>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-cf-primary px-4"><i class="bi bi-calendar-plus me-1"></i>Agendar</button>
+                <a href="/web/consultas" class="btn btn-outline-secondary px-4"><i class="bi bi-arrow-left me-1"></i>Cancelar</a>
+            </div>
+        </form>
+
+        <form th:if="${remarcando}" th:action="@{/web/consultas/remarcar/salvar/{id}(id=${consultaId})}" method="post">
+            <div class="alert alert-info mb-3"><i class="bi bi-info-circle me-2"></i>Informe a nova data e hora para a consulta.</div>
+            <div class="mb-4"><label class="form-label">Nova Data e Hora *</label>
+                <input type="datetime-local" class="form-control" name="novaDataHora" required/>
+                <div class="form-text"><i class="bi bi-info-circle me-1"></i>Conflitos serão verificados automaticamente.</div>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-cf-primary px-4"><i class="bi bi-calendar-event me-1"></i>Remarcar</button>
+                <a href="/web/consultas" class="btn btn-outline-secondary px-4"><i class="bi bi-arrow-left me-1"></i>Cancelar</a>
+            </div>
+        </form>
+
+    </div></div></div>
+</div>
+<div th:replace="~{layouts/base :: scripts}"></div>
+</body></html>

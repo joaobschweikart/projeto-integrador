@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Fragment: head — inclui CSS e meta tags -->
+<head th:fragment="head">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<style>
+:root{--cf-primary:#065A82;--cf-secondary:#1C7293;--cf-accent:#02C39A;--cf-light:#EBF5FB;--cf-dark:#073B4C;}
+body{background:#F4F8FB;font-family:'Segoe UI',sans-serif;}
+.navbar-cf{background:var(--cf-dark);box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.navbar-cf .navbar-brand{font-weight:700;font-size:1.35rem;color:#fff;}
+.navbar-cf .navbar-brand span{color:var(--cf-accent);}
+.navbar-cf .nav-link{color:rgba(255,255,255,.8);font-size:.93rem;padding:.4rem .75rem;}
+.navbar-cf .nav-link:hover,.navbar-cf .nav-link.active{color:var(--cf-accent);}
+.navbar-cf .nav-link i{margin-right:.3rem;}
+.stat-card{border:none;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);transition:transform .15s;}
+.stat-card:hover{transform:translateY(-3px);}
+.stat-card .icon-box{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;}
+.table-cf thead{background:var(--cf-primary);color:#fff;}
+.table-cf tbody tr:hover{background:var(--cf-light);}
+.btn-cf-primary{background:var(--cf-primary);color:#fff;border:none;}
+.btn-cf-primary:hover{background:var(--cf-secondary);color:#fff;}
+.btn-cf-accent{background:var(--cf-accent);color:#fff;border:none;}
+.btn-cf-accent:hover{background:#01a884;color:#fff;}
+.badge-AGENDADA{background:#0D6EFD;}
+.badge-CONFIRMADA{background:#198754;}
+.badge-REALIZADA{background:#6C757D;}
+.badge-CANCELADA{background:#DC3545;}
+.badge-NAO_COMPARECEU{background:#FFC107;color:#333;}
+.page-header{background:linear-gradient(135deg,var(--cf-primary),var(--cf-secondary));color:#fff;border-radius:12px;padding:1.5rem 2rem;margin-bottom:1.8rem;}
+.page-header h2{font-weight:700;margin:0;}
+.page-header p{margin:.25rem 0 0;opacity:.85;font-size:.95rem;}
+.form-card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);padding:2rem;}
+.form-label{font-weight:600;color:var(--cf-dark);font-size:.9rem;}
+.form-control:focus,.form-select:focus{border-color:var(--cf-secondary);box-shadow:0 0 0 .2rem rgba(28,114,147,.2);}
+.alert-cf-success{background:#D1FAE5;border-left:4px solid #059669;color:#065F46;}
+.alert-cf-error{background:#FEE2E2;border-left:4px solid #DC2626;color:#991B1B;}
+</style>
+</head>
+
+<!-- Fragment: navbar -->
+<body>
+<nav th:fragment="navbar(activePage)" class="navbar navbar-expand-lg navbar-cf px-3 py-2">
+    <a class="navbar-brand" href="/"><i class="bi bi-hospital me-1"></i>Clinica<span>Fácil</span></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list text-white fs-4"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage=='dashboard'}?' active':''" href="/"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage=='consultas'}?' active':''" href="/web/consultas"><i class="bi bi-calendar-check"></i>Consultas</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage=='pacientes'}?' active':''" href="/web/pacientes"><i class="bi bi-people"></i>Pacientes</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage=='medicos'}?' active':''" href="/web/medicos"><i class="bi bi-person-badge"></i>Médicos</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage=='especialidades'}?' active':''" href="/web/especialidades"><i class="bi bi-clipboard2-pulse"></i>Especialidades</a></li>
+            <li class="nav-item ms-2"><a class="nav-link text-warning" href="/swagger-ui.html" target="_blank"><i class="bi bi-code-slash"></i>API Docs</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Fragment: scripts -->
+<div th:fragment="scripts">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+setTimeout(()=>{
+    document.querySelectorAll('.alert-dismissible').forEach(el=>{
+        try{new bootstrap.Alert(el).close();}catch(e){}
+    });
+},4000);
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layouts/base :: head}"><meta charset="UTF-8"/><title>Consultas</title></head>
+<body>
+<nav th:replace="~{layouts/base :: navbar('consultas')}"></nav>
+<div class="container-fluid px-4 py-4">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div><h2><i class="bi bi-calendar-check me-2"></i>Consultas</h2><p>Agendamentos e histórico</p></div>
+        <a href="/web/consultas/nova" class="btn btn-cf-accent"><i class="bi bi-plus-lg me-1"></i>Agendar Consulta</a>
+    </div>
+    <div th:if="${sucesso}" class="alert alert-cf-success alert-dismissible fade show mb-3"><i class="bi bi-check-circle me-2"></i><span th:text="${sucesso}"></span><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div th:if="${erro}" class="alert alert-cf-error alert-dismissible fade show mb-3"><i class="bi bi-exclamation-circle me-2"></i><span th:text="${erro}"></span><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div class="card border-0 shadow-sm rounded-3"><div class="card-body p-0">
+        <table class="table table-hover table-cf mb-0">
+            <thead><tr><th>#</th><th>Paciente</th><th>Médico</th><th>Data/Hora</th><th>Status</th><th class="text-center">Ações</th></tr></thead>
+            <tbody>
+                <tr th:each="c : ${consultas}">
+                    <td class="text-muted small" th:text="${c.id}">1</td>
+                    <td class="fw-semibold" th:text="${c.pacienteNome}">—</td>
+                    <td th:text="${c.medicoNome}">—</td>
+                    <td th:text="${#temporals.format(c.dataHora,'dd/MM/yyyy HH:mm')}">—</td>
+                    <td><span class="badge rounded-pill" th:classappend="'badge-'+${c.status}" th:text="${c.status}">—</span></td>
+                    <td class="text-center">
+                        <form th:if="${c.status.name() == 'AGENDADA'}" th:action="@{/web/consultas/confirmar/{id}(id=${c.id})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-success me-1" title="Confirmar"><i class="bi bi-check-lg"></i></button>
+                        </form>
+                        <a th:if="${c.status.name() != 'CANCELADA' and c.status.name() != 'REALIZADA'}"
+                           th:href="@{/web/consultas/remarcar/{id}(id=${c.id})}" class="btn btn-sm btn-outline-warning me-1" title="Remarcar"><i class="bi bi-calendar-event"></i></a>
+                        <form th:if="${c.status.name() != 'CANCELADA' and c.status.name() != 'REALIZADA'}"
+                              th:action="@{/web/consultas/cancelar/{id}(id=${c.id})}" method="post" class="d-inline" onsubmit="return confirm('Cancelar esta consulta?')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Cancelar"><i class="bi bi-x-lg"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(consultas)}"><td colspan="6" class="text-center text-muted py-5"><i class="bi bi-calendar-x fs-2 d-block mb-2"></i>Nenhuma consulta. <a href="/web/consultas/nova">Agendar agora</a></td></tr>
+            </tbody>
+        </table>
+    </div></div>
+</div>
+<div th:replace="~{layouts/base :: scripts}"></div>
+</body></html>

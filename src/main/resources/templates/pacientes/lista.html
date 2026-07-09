@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layouts/base :: head}"><meta charset="UTF-8"/><title>Pacientes</title></head>
+<body>
+<nav th:replace="~{layouts/base :: navbar('pacientes')}"></nav>
+<div class="container-fluid px-4 py-4">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div><h2><i class="bi bi-people me-2"></i>Pacientes</h2><p>Cadastro e histórico</p></div>
+        <a href="/web/pacientes/novo" class="btn btn-cf-accent"><i class="bi bi-person-plus me-1"></i>Novo Paciente</a>
+    </div>
+    <div th:if="${sucesso}" class="alert alert-cf-success alert-dismissible fade show mb-3"><i class="bi bi-check-circle me-2"></i><span th:text="${sucesso}"></span><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div th:if="${erro}" class="alert alert-cf-error alert-dismissible fade show mb-3"><i class="bi bi-exclamation-circle me-2"></i><span th:text="${erro}"></span><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div class="card border-0 shadow-sm rounded-3 mb-3"><div class="card-body py-2">
+        <form method="get" action="/web/pacientes" class="d-flex gap-2">
+            <input type="text" class="form-control" name="nome" th:value="${buscaNome}" placeholder="Buscar pelo nome..."/>
+            <button type="submit" class="btn btn-cf-primary px-4"><i class="bi bi-search"></i></button>
+            <a href="/web/pacientes" class="btn btn-outline-secondary">Limpar</a>
+        </form>
+    </div></div>
+    <div class="card border-0 shadow-sm rounded-3"><div class="card-body p-0">
+        <table class="table table-hover table-cf mb-0">
+            <thead><tr><th>#</th><th>Nome</th><th>CPF</th><th>Telefone</th><th>E-mail</th><th class="text-center">Ações</th></tr></thead>
+            <tbody>
+                <tr th:each="p : ${pacientes}">
+                    <td class="text-muted small" th:text="${p.id}">1</td>
+                    <td class="fw-semibold" th:text="${p.nome}">—</td>
+                    <td th:text="${p.cpf ?: '—'}">—</td>
+                    <td th:text="${p.telefone ?: '—'}">—</td>
+                    <td th:text="${p.email}">—</td>
+                    <td class="text-center">
+                        <a th:href="@{/web/pacientes/editar/{id}(id=${p.id})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                        <form th:action="@{/web/pacientes/excluir/{id}(id=${p.id})}" method="post" class="d-inline" onsubmit="return confirm('Excluir este paciente?')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(pacientes)}"><td colspan="6" class="text-center text-muted py-5"><i class="bi bi-person-x fs-2 d-block mb-2"></i>Nenhum paciente. <a href="/web/pacientes/novo">Cadastrar agora</a></td></tr>
+            </tbody>
+        </table>
+    </div></div>
+</div>
+<div th:replace="~{layouts/base :: scripts}"></div>
+</body></html>
